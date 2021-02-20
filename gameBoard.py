@@ -65,7 +65,39 @@ class GameBoard:
         """
         This function verifies if a player wins and returns the player number.
 
-
+        :notes: There are 6 conditions for winning, 3 with a line configuration, 3 with a rwo configuration and 2 with a diagonal configuration.
         """
+
+        # Verification for player1:
+        condPlayerOne = False
+        # Line conditions
         for line in self.grid:
-            if all()
+            if all(['X' == square for square in line]):
+                condPlayerOne = True
+        # Row conditions
+        if (self.grid[0][0] == 'X' and self.grid[1][0] == 'X' and self.grid[2][0] == 'X') or (self.grid[0][1] == 'X' and self.grid[1][1] == 'X' and self.grid[2][1] == 'X') or (self.grid[0][2] == 'X' and self.grid[1][2] == 'X' and self.grid[2][2] == 'X'):
+            condPlayerOne = True
+        # Diagonal conditions
+        if (self.grid[0][0] == 'X' and self.grid[1][1] == 'X' and self.grid[2][2] == 'X') or (self.grid[0][2] == 'X' and self.grid[1][1] == 'X' and self.grid[2][0] == 'X'):
+            condPlayerOne = True
+        # Verification for player2:
+        condPlayerTwo = False
+        # Line conditions
+        for line in self.grid:
+            if all(['O' == square for square in line]):
+                condPlayerTwo = True
+        # Row conditions
+        if (self.grid[0][0] == 'O' and self.grid[1][0] == 'O' and self.grid[2][0] == 'O') or (self.grid[0][1] == 'O' and self.grid[1][1] == 'O' and self.grid[2][1] == 'O') or (self.grid[0][2] == 'O' and self.grid[1][2] == 'O' and self.grid[2][2] == 'O'):
+            condPlayerTwo = True
+        # Diagonal conditions
+        if (self.grid[0][0] == 'O' and self.grid[1][1] == 'O' and self.grid[2][2] == 'O') or (self.grid[0][2] == 'O' and self.grid[1][1] == 'O' and self.grid[2][0] == 'O'):
+            condPlayerTwo = True
+
+        if condPlayerOne and condPlayerTwo:
+            print('ERROR: The two players wins this game, which is impossible!')
+        if condPlayerOne and not condPlayerTwo:
+            return 1
+        if not condPlayerOne and condPlayerTwo:
+            return 2
+        if not condPlayerOne and not condPlayerTwo:
+            return 0
