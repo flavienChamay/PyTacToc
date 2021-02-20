@@ -32,6 +32,8 @@ class GameBoard:
         :var absX int:
         :var absY int: 
         """
+        # TODO: Do not authorize to play on a square already chosen by another player.
+        # TODO: Verify the coordinates [0; 2]
 
         absX, ordY = coord
         if playerNumber == 1:
@@ -53,20 +55,21 @@ class GameBoard:
             line = ""
             for j in range(3):
                 if j == 2:
-                    line = line + "|" + self.grid[i][j]
+                    line = line + self.grid[i][j]
                 else:
                     line = line + self.grid[i][j] + "|"
             if i == 2:
                 print(line)
             else:
-                print(line, "- - -", sep="\n")
+                print(line, "-----", sep="\n")
 
-    def verify_winning_conditions():
+    def verify_winning_conditions(self):
         """
         This function verifies if a player wins and returns the player number.
 
         :notes: There are 6 conditions for winning, 3 with a line configuration, 3 with a rwo configuration and 2 with a diagonal configuration.
         """
+        # TODO: Simplify with list capture or for loops ?
 
         # Verification for player1:
         condPlayerOne = False
