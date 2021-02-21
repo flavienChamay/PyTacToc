@@ -2,30 +2,35 @@
 This module implements the GUI of the Tic-Tac-Toe game.  It is also the main program of the game.
 """
 from gameBoard import GameBoard
+from player import Player
+from itertools import cycle
 
 
 def player_vs_player():
+    playerList = [Player('X'), Player('O')]
     game = GameBoard()
-    result = 0
-    print('Always choose a tuple of coordinates between 0 and 2 like this : "x y"')
-    player = 1
-    while result == 0:
-        print('Player ' + str(player) + ' to play: ')
-        x, y = map(int, input('Your coordinates: ').split())
-        game.playerPlay(player, (x, y))
-        game.display_board()
-        result = game.verify_winning_conditions()
-        if result != 0:
+    iterPlayer = cycle(playerList)
+    player = next(iterPlayer)
+
+    while True:
+        print('Always choose a tuple of coordinates between 0 and 2 like this : "x y"')
+        print('Player ' + str(player.get_symbol()) + ' to play: ')
+        while True:  # As long as the player keeps doing mistakes, he has to replay.
+            x, y = map(int, input('Your coordinates: ').split())
+            resultPlay = game.playerPlay(player, x, y)
+            game.verify_winning_conditions(player)
+            game.display_board()
+            if resultPlay != 0:
+                break
+        if game.get_playerWinner() != None:
             break
-        player += 1
-        if player > 2:
-            player = 1
-    print('The player: ' + str(result) + ' wins!')
+        player = next(iterPlayer)
+    print('The player: ' + str(player.get_symbol()) + ' wins!')
 
 
 def player_vs_computer():
-    # TODO: Choosing between two difficulties;
-    # TODO: Implement Minimax for unbeatable AI
+    # TODO: Choosing between two difficulties: Dumb and unbeatable.
+    # TODO: Implement Minimax for unbeatable AI.
     print('Choose the computer difficulty: ')
     pass
 
