@@ -1,5 +1,5 @@
 """
-This module manages the board of the game. It allows the players and the computer to play on the grid, to save a game or to load a game. 
+This module manages the board of the game. It allows the players and the computer to play on the grid, to save a game or to load a game.
 
 :class GameBoard: The class of the board of the game
 """
@@ -9,7 +9,10 @@ class GameBoard:
     """
     GameBoard class is used to create the board of the game.
 
-    :method :
+    :method: __init__(self)
+    :method: playerPlay(self, playerNumber, coord)
+    :method: display_board(self)
+    :method: verify_winning_conditions(self)
     """
 
     def __init__(self):
@@ -17,31 +20,43 @@ class GameBoard:
         Initialize the board of the game with start values.
 
         :var grid: The grid of the game initialized with 'E' values for empty.
-        :var winner: True if we have a winner of the game, false if not. Initialized at False for starting the game.
+        :var condPlayerOne bool: True if the player one wins, false if not. Initialized at False.
+        :var condPlayerTwo bool: True if the player two wins, false if not. Initialized at False.
         """
 
         self.grid = [['E', 'E', 'E'], ['E', 'E', 'E'], ['E', 'E', 'E']]
-        self.winner = False
+        self.condPlayerOne = False
+        self.condPlayerTwo = False
 
     def playerPlay(self, playerNumber, coord):
         """
         This functions marks the grid with the player's mark in the given coordinates.
 
-        :param playerNumber int:
+        :param playerNumber int: The number of the player, 1 or 2.
         :param coord (int, int): Tuple of integers representing, in order, the x-axis coordinates and the y-axis coordinates.
-        :var absX int:
-        :var absY int: 
+        :var absX int: The x-axis coordinate of the mark of the player.
+        :var absY int: The y-axis coordinate of the mark of the player.
+        :returns int: 0 if there is an error, 1 if all is ok.
         """
-        # TODO: Do not authorize to play on a square already chosen by another player.
-        # TODO: Verify the coordinates [0; 2]
 
         absX, ordY = coord
-        if playerNumber == 1:
+        if not(absX in range(1, 3)) or not(ordY in range(1, 3)):
+            print(
+                'The coordinates are not in the proper range! Choose another valid coordinates.')
+            return 0
+        elif self.grid[absX][ordY] != 'E':
+            print(
+                'This square has already been played! Please choose another valid square.')
+            return 0
+        elif playerNumber == 1:
             self.grid[absX][ordY] = 'X'
+            return 1
         elif playerNumber == 2:
             self.grid[absX][ordY] = 'O'
+            return 1
         else:
-            print('Not a proper player number, please choose a valid player number')
+            print('Not a proper player number! Please choose a valid player number.')
+            return 0
 
     def display_board(self):
         """
@@ -65,42 +80,34 @@ class GameBoard:
 
     def verify_winning_conditions(self):
         """
-        This function verifies if a player wins and returns the player number.
+        This function verifies if a player wins according to the winning conditions.
 
+        :returns int: 1 if the player one wins, 2 if the player two wins, 0 if neither of them wins, prints an error if the two players are winning at the same time.
         :notes: There are 6 conditions for winning, 3 with a line configuration, 3 with a rwo configuration and 2 with a diagonal configuration.
         """
-        # TODO: Simplify with list capture or for loops ?
 
-        # Verification for player1:
-        condPlayerOne = False
         # Line conditions
         for line in self.grid:
             if all(['X' == square for square in line]):
-                condPlayerOne = True
-        # Row conditions
-        if (self.grid[0][0] == 'X' and self.grid[1][0] == 'X' and self.grid[2][0] == 'X') or (self.grid[0][1] == 'X' and self.grid[1][1] == 'X' and self.grid[2][1] == 'X') or (self.grid[0][2] == 'X' and self.grid[1][2] == 'X' and self.grid[2][2] == 'X'):
-            condPlayerOne = True
-        # Diagonal conditions
-        if (self.grid[0][0] == 'X' and self.grid[1][1] == 'X' and self.grid[2][2] == 'X') or (self.grid[0][2] == 'X' and self.grid[1][1] == 'X' and self.grid[2][0] == 'X'):
-            condPlayerOne = True
-        # Verification for player2:
-        condPlayerTwo = False
-        # Line conditions
-        for line in self.grid:
+                self.condPlayerOne = True
             if all(['O' == square for square in line]):
-                condPlayerTwo = True
+                self.condPlayerTwo = True
         # Row conditions
-        if (self.grid[0][0] == 'O' and self.grid[1][0] == 'O' and self.grid[2][0] == 'O') or (self.grid[0][1] == 'O' and self.grid[1][1] == 'O' and self.grid[2][1] == 'O') or (self.grid[0][2] == 'O' and self.grid[1][2] == 'O' and self.grid[2][2] == 'O'):
-            condPlayerTwo = True
+        if all([self.grid[i][0] == 'X' for i in range(3)]) or all([self.grid[i][1] == 'X' for i in range(3)]) or all([self.grid[i][2] == 'X' for i in range(3)]):
+            self.condPlayerOne = True
+        if all([self.grid[i][0] == 'O' for i in range(3)]) or all([self.grid[i][1] == 'O' for i in range(3)]) or all([self.grid[i][2] == 'O' for i in range(3)]):
+            self.condPlayerTwo = True
         # Diagonal conditions
-        if (self.grid[0][0] == 'O' and self.grid[1][1] == 'O' and self.grid[2][2] == 'O') or (self.grid[0][2] == 'O' and self.grid[1][1] == 'O' and self.grid[2][0] == 'O'):
-            condPlayerTwo = True
+        if all([self.grid[i][i] == 'X' for i in range(3)]) or all(self.grid[i][2 - i] == 'X' for i in range(3)):
+            self.condPlayerOne = True
+        if all([self.grid[i][i] == 'O' for i in range(3)]) or all(self.grid[i][2 - i] == 'O' for i in range(3)):
+            self.condPlayerTwo = True
 
-        if condPlayerOne and condPlayerTwo:
-            print('ERROR: The two players wins this game, which is impossible!')
-        if condPlayerOne and not condPlayerTwo:
+        if self.condPlayerOne and not self.condPlayerTwo:
             return 1
-        if not condPlayerOne and condPlayerTwo:
+        elif not self.condPlayerOne and self.condPlayerTwo:
             return 2
-        if not condPlayerOne and not condPlayerTwo:
+        elif not self.condPlayerOne and not self.condPlayerTwo:
             return 0
+        else:
+            print('ERROR: The two players wins this game, which is impossible!')
