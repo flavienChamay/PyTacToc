@@ -10,9 +10,11 @@ class GameBoard:
     GameBoard class is used to create the board of the game.
 
     :method: __init__(self)
-    :method: playerPlay(self, playerNumber, coord)
+    :method: grid(self)
+    :method: playerWinner(self)
+    :method: available_moves(self)
     :method: display_board(self)
-    :method: verify_winning_conditions(self)
+    :method: verify_winning_conditions(self, player)
     """
 
     def __init__(self):
@@ -28,20 +30,30 @@ class GameBoard:
 
     @property
     def grid(self):
+        """
+        This function is the getter of the grid attribute.
+
+        :returns list: The grid of the game board.
+        """
         return self._grid
 
     @property
     def playerWinner(self):
+        """
+        This function is the getter of the winning player.
+
+        :returns Player: The winner of the game.
+        """
         return self._playerWinner
 
     def available_moves(self):
         """
         This function indicates all of the avaible moves for a game board.
 
-        :var l list:
-        :var absX int:
-        :var ordY int:
-        :var row list:
+        :var l list: The list of coordinates of the game.
+        :var absX int: The x-axis coordinate of a square of the game.
+        :var ordY int: The y-axis coordinate of a square of the game.
+        :var row list: A line of the grid.
         :returns list: A list of tuple containing the x-axis and y-axis coordinates avaible to play.
         """
 
