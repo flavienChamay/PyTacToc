@@ -23,36 +23,33 @@ class GameBoard:
         :var playerWinner Player: If a player wins it is stored, None by default when the board is created.
         """
 
-        self.grid = [[' ' for _ in range(3)] for _ in range(3)]
-        self.playerWinner = None
+        self._grid = [[' ' for _ in range(3)] for _ in range(3)]
+        self._playerWinner = None
 
-    def get_grid(self):
-        return self.grid
+    @property
+    def grid(self):
+        return self._grid
 
-    def get_playerWinner(self):
-        return self.playerWinner
+    @property
+    def playerWinner(self):
+        return self._playerWinner
 
-    def playerPlay(self, player, absX, ordY):
+    def available_moves(self):
         """
-        This functions marks the grid with the player's mark in the given coordinates.
+        This function indicates all of the avaible moves for a game board.
 
-        :param player PLayer: The player that plays.
-        :parma absX int: The x-axis coordinate of the mark of the player.
-        :param absY int: The y-axis coordinate of the mark of the player.
-        :returns int: 0 if there is an error and the player must replay, 1 if all is ok.
+        :var l list:
+        :var absX int:
+        :var ordY int:
+        :var row list:
+        :returns list: A list of tuple containing the x-axis and y-axis coordinates avaible to play.
         """
 
-        if not(absX in range(0, 3)) or not(ordY in range(0, 3)):
-            print(
-                'The coordinates are not in the proper range! Choose another valid coordinates.')
-            return 0
-        elif self.grid[absX][ordY] != ' ':
-            print(
-                'This square has already been played! Please choose another valid square.')
-            return 0
-        else:
-            self.grid[absX][ordY] = player.get_symbol()
-            return 1
+        l = []
+        for absX, row in enumerate(self.grid):
+            for ordY, _ in enumerate(row):
+                l.append((absX, ordY))
+        return l
 
     def display_board(self):
         """
@@ -74,14 +71,14 @@ class GameBoard:
         :notes: There are 6 conditions for winning, 3 with a line configuration, 3 with a rwo configuration and 2 with a diagonal configuration.
         """
 
-        symbol = player.get_symbol()
+        symbol = player.symbolPlayer
         # Line conditions
         for line in self.grid:
             if all([symbol == square for square in line]):
-                self.playerWinner = player
+                self._playerWinner = player
         # Row conditions
         if all([self.grid[i][0] == symbol for i in range(3)]) or all([self.grid[i][1] == symbol for i in range(3)]) or all([self.grid[i][2] == symbol for i in range(3)]):
-            self.playerWinner = player
+            self._playerWinner = player
         # Diagonal conditions
         if all([self.grid[i][i] == symbol for i in range(3)]) or all(self.grid[i][2 - i] == symbol for i in range(3)):
-            self.playerWinner = player
+            self._playerWinner = player

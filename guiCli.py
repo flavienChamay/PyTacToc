@@ -2,30 +2,22 @@
 This module implements the GUI of the Tic-Tac-Toe game.  It is also the main program of the game.
 """
 from gameBoard import GameBoard
-from player import Player
+from player import HumanPlayer
 from itertools import cycle
 
 
 def player_vs_player():
-    playerList = [Player('X'), Player('O')]
+    playerList = [HumanPlayer('X'), HumanPlayer('O')]
     game = GameBoard()
     iterPlayer = cycle(playerList)
     player = next(iterPlayer)
 
-    while True:
-        print('Always choose a tuple of coordinates between 0 and 2 like this : "x y"')
-        print('Player ' + str(player.get_symbol()) + ' to play: ')
-        while True:  # As long as the player keeps doing mistakes, he has to replay.
-            x, y = map(int, input('Your coordinates: ').split())
-            resultPlay = game.playerPlay(player, x, y)
-            game.verify_winning_conditions(player)
-            game.display_board()
-            if resultPlay != 0:
-                break
-        if game.get_playerWinner() != None:
+    while True:  # As long as there is no winner the game continues.
+        player.to_play(game)
+        if game.playerWinner != None:
             break
         player = next(iterPlayer)
-    print('The player: ' + str(player.get_symbol()) + ' wins!')
+    print('The player: ' + str(player.symbolPlayer) + ' wins!')
 
 
 def player_vs_computer():
