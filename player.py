@@ -3,8 +3,10 @@ This module manages the players of the Tic-Tac-Toe game. The player can be a hum
 
 :class Player: The class of the player.
 :class DumbComputerPlayer: The class of a computer player with random moves.
-:class :
+:class UnbeatableComputerPlayer:
 """
+
+import random
 
 
 class Player:
@@ -36,19 +38,32 @@ class Player:
 
         return self._symbolPlayer
 
-    def player_plays(self, board):
+    def to_play(self, board):
         """
         This function lets the player plays.
 
         :param board GameBoard: The board of the game.
+        :returns: None.
         """
 
         pass
 
 
 class DumbComputerPlayer(Player):
+    """
+
+    """
+
     def __init__(self, symbolPlayer):
         super().__init__(symbolPlayer)
+
+    def to_play(self, board):
+        grid = board.grid
+        moveX, moveY = random.choice(grid.available_moves())
+
+        grid[moveX][moveY] = self.symbolPlayer
+        board.verify_winning_conditions(self)
+        board.display_board()
 
 
 class UnbeatableComputerPlayer(Player):

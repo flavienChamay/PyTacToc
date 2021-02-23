@@ -58,9 +58,10 @@ class GameBoard:
         """
 
         l = []
-        for absX, row in enumerate(self.grid):
-            for ordY, _ in enumerate(row):
-                l.append((absX, ordY))
+        for absX, row in enumerate(self._grid):
+            for ordY, letter in enumerate(row):
+                if letter == ' ':
+                    l.append((absX, ordY))
         return l
 
     def display_board(self):
@@ -71,7 +72,7 @@ class GameBoard:
         :returns: None.
         """
 
-        for row in self.grid:
+        for row in self._grid:
             print(' | '.join(row))
 
     def verify_winning_conditions(self, player):
@@ -85,12 +86,12 @@ class GameBoard:
 
         symbol = player.symbolPlayer
         # Line conditions
-        for line in self.grid:
+        for line in self._grid:
             if all([symbol == square for square in line]):
                 self._playerWinner = player
         # Row conditions
-        if all([self.grid[i][0] == symbol for i in range(3)]) or all([self.grid[i][1] == symbol for i in range(3)]) or all([self.grid[i][2] == symbol for i in range(3)]):
+        if all([self._grid[i][0] == symbol for i in range(3)]) or all([self._grid[i][1] == symbol for i in range(3)]) or all([self._grid[i][2] == symbol for i in range(3)]):
             self._playerWinner = player
         # Diagonal conditions
-        if all([self.grid[i][i] == symbol for i in range(3)]) or all(self.grid[i][2 - i] == symbol for i in range(3)):
+        if all([self._grid[i][i] == symbol for i in range(3)]) or all(self._grid[i][2 - i] == symbol for i in range(3)):
             self._playerWinner = player
