@@ -118,6 +118,7 @@ class UnbeatableComputerPlayer(Player):
         # Terminal case:
         elif not currentBoard.available_moves():
             return {'position': None, 'score': 0}
+        
 
 
 class HumanPlayer(Player):

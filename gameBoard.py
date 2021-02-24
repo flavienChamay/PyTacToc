@@ -64,6 +64,15 @@ class GameBoard:
                     l.append((absX, ordY))
         return l
 
+    def number_empty_squares(self):
+        """
+        This function indicates the number of empty squares for the game board.
+
+        :returns int: The number of empty squares.
+        """
+
+        return len(self.available_moves())
+
     def display_board(self):
         """
         This function displays the board of the game in the CLI.
