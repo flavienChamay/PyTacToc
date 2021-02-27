@@ -101,23 +101,55 @@ class UnbeatableComputerPlayer(Player):
         board.verify_winning_conditions(self)
         board.display_board()
 
-    def minimax(self, currentBoard, symbolPlayer):
+    def minimax(self, currentBoard, currentPlayer):
         """
 
         :notes: The utility function is positive if it is valuable for user of the minimax algorithm, negative if not. Its formulae is h = (±1) * (number_of_possible_moves + 1). The minimax algo modifies the board when it tries to figure out the best move, so we must undo its move each time we iterate.
         """
-        computerPlayer = self.symbolPlayer
-        ennemyPlayer = 'X' if symbolPlayer == 'O' else 'O'
+        maxPlayer = self.symbolPlayer
+        minPlayer = 'X' if symbolPlayer == 'O' else 'O'
 
         # Base case:
-        if currentBoard.playerWinner() == ennemyPlayer:
+        if currentBoard.playerWinner() == minPlayer:
             return {'position': None,
-                    'score': 1 * (currentBoard.number_empty_squares() + 1) if ennemyPlayer == computerPlayer else -1 * (currentBoard.number_empty_squares() + 1)
+                    'score': 1 * (currentBoard.number_empty_squares() + 1) if minPlayer == maxPlayer else -1 * (currentBoard.number_empty_squares() + 1)
                     }
 
         # Terminal case:
-        elif not currentBoard.available_moves():
+        if not currentBoard.available_moves():
             return {'position': None, 'score': 0}
+
+        # Core of the Minimax Algo
+        # Maximizer tries to have the greater value so we need the lowest value possible to be sure to replace it.
+        if currentPlayer == maxPlayer:
+            bestMove = {
+                'position': None,
+                'score': -math.inf
+            }
+        # Minimizer tries to have the lowest value so we need the greater value possible to be sure to replace it.
+        else:
+            bestMove = {
+                'position': None,
+                'score': math.inf
+            }
+
+        grid = currentBoard.grid
+        for possibleMoveX, possibleMoveY in currentBoard.available_moves():
+            grid[possibleMoveX][possibleMoveY] = currentPlayer.symbolPlayer
+
+            virtualScore = self.minimax(currentBoard, minPlayer)
+            # Undoing the move:
+            grid[possibleMoveX][possibleMoveY] = ' '
+            currentBoard.playerWinner = None
+            virtualScore['position'] = (possibleMoveX, possibleMoveY)
+
+            if currentPlayer == maxPlayer and virtualScore['score'] > bestMove['score']:
+                bestMove = virtualScore
+            else:
+                if virtualScore['score'] < bestMove['score']:
+                    bestMove = virtualScore
+
+        return bestMove
 
 
 class HumanPlayer(Player):
