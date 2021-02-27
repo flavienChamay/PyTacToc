@@ -2,8 +2,17 @@
 This module implements the GUI of the Tic-Tac-Toe game.  It is also the main program of the game.
 """
 from gameBoard import GameBoard
-from player import HumanPlayer, DumbComputerPlayer
-from itertools import cycle
+from player import HumanPlayer, DumbComputerPlayer, UnbeatableComputerPlayer
+
+
+def human_choose_symbol():
+    """
+    """
+
+    print('Choose the symbol you want:', 'X: for the X player',
+          'O: for the O player', sep='\n')
+    symbol = input('Your choice: ')
+    return HumanPlayer(symbol)
 
 
 def player_vs_player():
@@ -13,39 +22,30 @@ def player_vs_player():
     ::
     :returns: None.
     """
-    playerList = [HumanPlayer('X'), HumanPlayer('O')]
+
+    playerList = [human_choose_symbol(), human_choose_symbol()]
     game = GameBoard()
-    iterPlayer = cycle(playerList)
-    player = next(iterPlayer)
-
-    while True:  # As long as there is no winner the game continues.
-        player.to_play(game)
-        if game.playerWinner != None:
-            break
-        player = next(iterPlayer)
-    print('The player: ' + str(player.symbolPlayer) + ' wins!')
+    game.play_on_board(playerList)
 
 
-def player_vs_computer():
-    # TODO: Implement Minimax for unbeatable AI.
-    print('Choose the computer difficulty: ', '1: for a dumb difficulty (random moves)',
-          '2: for unbeatable difficulty', sep='\n')
-    user_choice = input('Your choice: ')
-    if user_choice == '1':
-        playerList = [DumbComputerPlayer('X'), HumanPlayer('O')]
-        print('Computer is X and you are O.')
-        game = GameBoard()
-        iterPlayer = cycle(playerList)
-        player = next(iterPlayer)
+def player_vs_dumb_computer():
+    """
+    """
 
-        while True:
-            player.to_play(game)
-            if game.playerWinner != None:
-                break
-            player = next(iterPlayer)
-        print('The player: ' + str(player.symbolPlayer) + ' wins!')
-    else:
-        pass
+    playerList = [DumbComputerPlayer('X'), HumanPlayer('O')]
+    print('Computer is X and you are O.')
+    game = GameBoard()
+    game.play_on_board(playerList)
+
+
+def player_vs_unbeatable_computer():
+    """
+    """
+
+    playerList = [UnbeatableComputerPlayer('X'), HumanPlayer('O')]
+    print('Computer is X and you are O.')
+    game = GameBoard()
+    game.play_on_board(playerList)
 
 
 def menu_manager():
@@ -60,19 +60,22 @@ def menu_manager():
     print('Welcome to the PyTacToe game, a Tic-Tac-Toe game!')
     while waiting_for_input:
         print('Please choose:',
-              '1: starting a new game with player VS player;',
-              '2: starting a new game with player VS computer;',
-              '3: load a game;',
-              '4: quit the game;', sep='\n')
+              '1: starting a new game player VS player;',
+              '2: starting a new game player VS dumb computer (random moves);',
+              '3: starting a new game player VS unbeatable computer;',
+              '4: load a game;',
+              '5: quit the game;', sep='\n')
         user_choice = input('Your choice: ')
         if user_choice == '1':
             player_vs_player()
         elif user_choice == '2':
-            player_vs_computer()
+            player_vs_dumb_computer()
         elif user_choice == '3':
-            # TODO: Implement all read and write file functionnalities.
-            pass
+            player_vs_unbeatable_computer()
         elif user_choice == '4':
+            # TODO: save/load a game mechanism
+            print('No implemented yet!')
+        elif user_choice == '5':
             waiting_for_input = False
         else:
             print('Input was invalid, please pick a value from the list!')

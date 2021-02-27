@@ -3,6 +3,7 @@ This module manages the board of the game. It allows the players and the compute
 
 :class GameBoard: The class of the board of the game.
 """
+from itertools import cycle
 
 
 class GameBoard:
@@ -45,6 +46,10 @@ class GameBoard:
         :returns Player: The winner of the game.
         """
         return self._playerWinner
+
+    @playerWinner.setter
+    def playerWinner(self, winner):
+        self._playerWinner = winner
 
     def available_moves(self):
         """
@@ -104,3 +109,25 @@ class GameBoard:
         # Diagonal conditions
         if all([self._grid[i][i] == symbol for i in range(3)]) or all(self._grid[i][2 - i] == symbol for i in range(3)):
             self._playerWinner = player
+
+    def play_on_board(self, listPlayers):
+        """
+        """
+
+        iterPlayer = cycle(listPlayers)
+        player = next(iterPlayer)
+
+        while True:
+            player.to_play(self)
+            if self._playerWinner != None:
+                break
+            player = next(iterPlayer)
+        print('The player: ' + str(player.symbolPlayer) + ' wins!')
+
+    def move_verify_display(self, absX, ordY, player):
+        """
+        """
+
+        self._grid[absX][ordY] = player.symbolPlayer
+        self.verify_winning_conditions(player)
+        self.display_board()

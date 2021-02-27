@@ -7,6 +7,7 @@ This module manages the players of the Tic-Tac-Toe game. The player can be a hum
 """
 
 import random
+from math import inf
 
 
 class Player:
@@ -80,9 +81,7 @@ class DumbComputerPlayer(Player):
         grid = board.grid
         moveX, moveY = random.choice(board.available_moves())
 
-        grid[moveX][moveY] = self.symbolPlayer
-        board.verify_winning_conditions(self)
-        board.display_board()
+        board.move_verify_display(moveX, moveY, self)
 
 
 class UnbeatableComputerPlayer(Player):
@@ -90,30 +89,31 @@ class UnbeatableComputerPlayer(Player):
         super().__init__(symbolPlayer)
 
     def to_play(self, board):
+        grid = board.grid
         moves = board.available_moves()
         # If all squares are available then the computer chooses a random square.
-        if len(moves == 9):
+        if len(moves) == 9:
             moveX, moveY = random.choice(moves)
         # else we use the minimax algo
         else:
-            moveX, moveY = self.minimax(board, self._symbolPlayer)
-        grid[moveX][moveY] = self.symbolPlayer
-        board.verify_winning_conditions(self)
-        board.display_board()
+            moveX, moveY = self.minimax(board, self._symbolPlayer)['position']
+        board.move_verify_display(moveX, moveY, self)
 
     def minimax(self, currentBoard, currentPlayer):
         """
 
         :notes: The utility function is positive if it is valuable for user of the minimax algorithm, negative if not. Its formulae is h = (±1) * (number_of_possible_moves + 1). The minimax algo modifies the board when it tries to figure out the best move, so we must undo its move each time we iterate.
         """
-        maxPlayer = self.symbolPlayer
-        minPlayer = 'X' if symbolPlayer == 'O' else 'O'
+        maxPlayer = currentPlayer
+        minPlayer = 'X' if maxPlayer == 'O' else 'O'
 
         # Base case:
-        if currentBoard.playerWinner() == minPlayer:
-            return {'position': None,
-                    'score': 1 * (currentBoard.number_empty_squares() + 1) if minPlayer == maxPlayer else -1 * (currentBoard.number_empty_squares() + 1)
-                    }
+        winner = currentBoard.playerWinner
+        if winner != None:
+            if winner.symbolPlayer == minPlayer:
+                return {'position': None,
+                        'score': 1 * (currentBoard.number_empty_squares() + 1) if minPlayer == maxPlayer else -1 * (currentBoard.number_empty_squares() + 1)
+                        }
 
         # Terminal case:
         if not currentBoard.available_moves():
@@ -124,23 +124,23 @@ class UnbeatableComputerPlayer(Player):
         if currentPlayer == maxPlayer:
             bestMove = {
                 'position': None,
-                'score': -math.inf
+                'score': -inf
             }
         # Minimizer tries to have the lowest value so we need the greater value possible to be sure to replace it.
         else:
             bestMove = {
                 'position': None,
-                'score': math.inf
+                'score': inf
             }
 
         grid = currentBoard.grid
         for possibleMoveX, possibleMoveY in currentBoard.available_moves():
-            grid[possibleMoveX][possibleMoveY] = currentPlayer.symbolPlayer
+            grid[possibleMoveX][possibleMoveY] = currentPlayer
 
             virtualScore = self.minimax(currentBoard, minPlayer)
             # Undoing the move:
             grid[possibleMoveX][possibleMoveY] = ' '
-            currentBoard.playerWinner = None
+            currentBoard.playerWinner(None)
             virtualScore['position'] = (possibleMoveX, possibleMoveY)
 
             if currentPlayer == maxPlayer and virtualScore['score'] > bestMove['score']:
@@ -191,7 +191,7 @@ class HumanPlayer(Player):
                 'This square has already been played! Please choose another valid square.')
             return False
         else:
-            grid[absX][ordY] = self.symbolPlayer
+            board.move_verify_display(absX, ordY, self)
             return True
 
     def to_play(self, board):
@@ -210,7 +210,5 @@ class HumanPlayer(Player):
         while True:  # As long as the player keeps doing mistakes, he has to replay.
             x, y = map(int, input('Your coordinates: ').split())
             resultPlay = self.player_plays(board, x, y)
-            board.verify_winning_conditions(self)
-            board.display_board()
             if resultPlay:
                 break
