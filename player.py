@@ -140,7 +140,7 @@ class UnbeatableComputerPlayer(Player):
             virtualScore = self.minimax(currentBoard, minPlayer)
             # Undoing the move:
             grid[possibleMoveX][possibleMoveY] = ' '
-            currentBoard.playerWinner(None)
+            currentBoard.playerWinner = None
             virtualScore['position'] = (possibleMoveX, possibleMoveY)
 
             if currentPlayer == maxPlayer and virtualScore['score'] > bestMove['score']:

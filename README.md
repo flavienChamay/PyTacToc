@@ -10,6 +10,7 @@ This project implements a TicTacToe game with CLI interface (and in the future w
 * [Launch](#launch)
 * [Code Example](#code-example)
 * [Status](#status)
+* [Inspiration and Sources](#inspiration-and-sources)
 * [Contact](#contact)
 
 ## General info
@@ -25,22 +26,31 @@ Coming soon...
 This project has been only tested on Linux Manjaro Nibia 20.2.1.
 
 ### On Linux:
-
+No specific dependencies are required for this project.
 ## On Windows:
 No tests have been launched on Windows for the moment.
 
 ## Features
+* All basic mechanics of a Tic-Tac-Toe game
+* CLI for user interaction
 
 To-do list:
-* Mechanics of the game
-* Graphical interface
+* GUI
 
 ## Launch
+After all dependencies has been installed, launch the project with a terminal on the source folder and type:
+```bash
+python guiCli.py
+```
+After that, follow the indications on the terminal.
 
 ## Code Example
 
 ## Status
-This project is _in progress_ because the main functionnalities are missing plus the GUI.
+This project is _in progress_ because the GUI and the unbeatable AI are missing.
+
+## Inspiration and Sources
+The Minimax algorithm is based on the tutorials of [Kylie Ying](https://github.com/kying18).
 
 ## Contact
 Written by [Flavien Chamay](mailto:flavien.chamay@protonmail.com)
