@@ -103,7 +103,8 @@ class GameBoard:
         """
         This function verifies if a player wins according to the winning conditions.
 
-        :param player Player:
+        :param player Player: The player which needs to be verified.
+        :var symbol char: The symbol of the player var.
         :returns int: 1 if the player one wins, 2 if the player two wins, 0 if neither of them wins, prints an error if the two players are winning at the same time.
         :notes: There are 6 conditions for winning, 3 with a line configuration, 3 with a rwo configuration and 2 with a diagonal configuration.
         """
@@ -122,6 +123,12 @@ class GameBoard:
 
     def play_on_board(self, listPlayers):
         """
+        This function takes the players in turn. It prints if the game is a tie or the winner of the game.
+
+        :param listPlayers list: The list of the players of the game.
+        :var iterPlayer Player: The iterator of the listPlayers var.
+        :var player Player: The player playing at the moment.
+        :returns: None.
         """
 
         iterPlayer = cycle(listPlayers)
@@ -139,6 +146,9 @@ class GameBoard:
 
     def move_verify_display(self, absX, ordY, player):
         """
+        This function makes the move of a player, verify if he wins, verify if there is a tie and displays the board.
+
+        :returns: None.
         """
 
         self._grid[absX][ordY] = player.symbolPlayer
@@ -147,5 +157,11 @@ class GameBoard:
         self.display_board()
 
     def verify_tie_conditions(self):
+        """
+        This function verifies if there is a tie in the game.
+
+        :returns: None.
+        """
+
         if len(self.available_moves()) == 0 and self._playerWinner == None:
             self._playerWinner = 'Tie'

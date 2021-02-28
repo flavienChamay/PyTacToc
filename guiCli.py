@@ -1,5 +1,11 @@
 """
-This module implements the GUI of the Tic-Tac-Toe game.  It is also the main program of the game.
+This module implements the CLI of the Tic-Tac-Toe game.  It is also the main program of the game.
+
+:method: human_choose_symbol()
+:method: player_vs_player()
+:method: player_vs_dumb_computer()
+:method: player_vs_unbeatable_computer()n
+:method: menu_manager()
 """
 from gameBoard import GameBoard
 from player import HumanPlayer, DumbComputerPlayer, UnbeatableComputerPlayer
@@ -7,19 +13,22 @@ from player import HumanPlayer, DumbComputerPlayer, UnbeatableComputerPlayer
 
 def human_choose_symbol():
     """
+    This function demands to the human player what symbol he wants.
+
+    :returns HumanPlayer: A HumanPlayer instance with the choosen symbol.
     """
 
     print('Choose the symbol you want:', 'X: for the X player',
           'O: for the O player', sep='\n')
-    symbol = input('Your choice: ')
-    return HumanPlayer(symbol)
+    return HumanPlayer(input('Your choice: '))
 
 
 def player_vs_player():
     """
     This function manages the game between two human players.
 
-    ::
+    :var playerList list: The list of all the players involved.
+    :var game GameBoard: The game board.
     :returns: None.
     """
 
@@ -30,6 +39,11 @@ def player_vs_player():
 
 def player_vs_dumb_computer():
     """
+    This function manages the game between a human player and a dumb computer.
+
+    :var playerList list: The list of all the players involved.
+    :var game GameBoard: The game board.
+    :returns: None.
     """
 
     playerList = [DumbComputerPlayer('X'), HumanPlayer('O')]
@@ -40,6 +54,11 @@ def player_vs_dumb_computer():
 
 def player_vs_unbeatable_computer():
     """
+    This function manages the game between a human player and an unbeatable computer.
+
+    :var playerList list: The list of all the players involved.
+    :var game GameBoard: The game board.
+    :returns: None.
     """
 
     playerList = [UnbeatableComputerPlayer('X'), HumanPlayer('O')]
@@ -52,8 +71,9 @@ def menu_manager():
     """
     This functions manages the menu in the CLI.
 
-    :var waiting_for_input bool:
-    :var user_choice str:
+    :var waiting_for_input bool: True if the user wants to play, or to continue to play, or has given a wrong answer.
+    :var user_choice str: The choice of the user from 1 to 5.
+    :returns: None.
     """
 
     waiting_for_input = True
@@ -84,6 +104,7 @@ def menu_manager():
 
 if __name__ == '__main__':
     """
-    Main program of the project.
+    Main program of the project. Calls the menu manager.
     """
+
     menu_manager()
