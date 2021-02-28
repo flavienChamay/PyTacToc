@@ -3,7 +3,8 @@ This module manages the players of the Tic-Tac-Toe game. The player can be a hum
 
 :class Player: The class of the player.
 :class DumbComputerPlayer: The class of a computer player with random moves.
-:class UnbeatableComputerPlayer:
+:class UnbeatableComputerPlayer: The class of a computer player that is unbeatable.
+:class HumanPlayer: The class of a human player.
 """
 
 import random
@@ -39,6 +40,16 @@ class Player:
 
         return self._symbolPlayer
 
+    @symbolPlayer.setter
+    def symbolPlayer(self, symbol):
+        """
+        This function sets the symbol of the player.
+
+        :returns: None.
+        """
+
+        self._symbolPlayer = symbol
+
     def to_play(self, board):
         """
         This function lets the player plays.
@@ -62,7 +73,7 @@ class DumbComputerPlayer(Player):
         """
         Initializes the dumb computer with input values.
 
-        :returns: Yields a DumbComputerPlayer's instance.
+        :returns DumbComputerPlayer: Yields a DumbComputerPlayer's instance.
         """
 
         super().__init__(symbolPlayer)
@@ -71,6 +82,7 @@ class DumbComputerPlayer(Player):
         """
         This function makes the dumb computer play.
 
+        :param board GameBoard: The game board on which the player plays.
         :var grid GameBoard: The grid of the game.
         :var moveX int: x-axis coordinate of the mark of the computer.
         :var moveY int: y-axis coordinate of the mark of the computer.
@@ -80,21 +92,44 @@ class DumbComputerPlayer(Player):
         print('Computer plays...')
         grid = board.grid
         moveX, moveY = random.choice(board.available_moves())
-
         board.move_verify_display(moveX, moveY, self)
 
 
 class UnbeatableComputerPlayer(Player):
+    """
+    UnbeatableComputerPlayer class is used to define a computer that is unbeatable.
+
+    :method: __init__(self, symbolPlayer)
+    :method: to_play(self, board)
+    :method: minimax(self, currentBoard, currentPlayer)
+    """
+
     def __init__(self, symbolPlayer):
+        """
+        Initializes the unbeatable computer with input values.
+
+        :param symbolPlayer char: The symbol of the player, X or O.
+        :returns UnbeatableComputerPlayer: Yields a UnbeatableComputerPlayer's instance 
+        """
+
         super().__init__(symbolPlayer)
 
     def to_play(self, board):
+        """
+        This function lets the unbeatable computer plays on the board.
+
+        :var grid list: The grid of the game board.
+        :var moves int: All the available moves.
+        :var moveX int: The x-axis coordinate of the move of the computer.
+        :var moveY int: The y-axis coordinate of the move of the computer.
+        :returns: None.
+        :notes: If all squares on the board are available (meaning that it plays first), then it chooses a random square. If not, it uses the minimax algorithm to play.
+        """
+
         grid = board.grid
         moves = board.available_moves()
-        # If all squares are available then the computer chooses a random square.
         if len(moves) == 9:
             moveX, moveY = random.choice(moves)
-        # else we use the minimax algo
         else:
             moveX, moveY = self.minimax(board, self._symbolPlayer)['position']
         board.move_verify_display(moveX, moveY, self)
@@ -104,16 +139,14 @@ class UnbeatableComputerPlayer(Player):
 
         :notes: The utility function is positive if it is valuable for user of the minimax algorithm, negative if not. Its formulae is h = (±1) * (number_of_possible_moves + 1). The minimax algo modifies the board when it tries to figure out the best move, so we must undo its move each time we iterate.
         """
-        maxPlayer = currentPlayer
-        minPlayer = 'X' if maxPlayer == 'O' else 'O'
+        maxPlayer = self._symbolPlayer
+        minPlayer = 'X' if currentPlayer == 'O' else 'O'
 
         # Base case:
-        winner = currentBoard.playerWinner
-        if winner != None:
-            if winner.symbolPlayer == minPlayer:
-                return {'position': None,
-                        'score': 1 * (currentBoard.number_empty_squares() + 1) if minPlayer == maxPlayer else -1 * (currentBoard.number_empty_squares() + 1)
-                        }
+        if currentBoard.playerWinner == minPlayer:
+            return {'position': None,
+                    'score': 1 * (currentBoard.number_empty_squares() + 1) if minPlayer == maxPlayer else -1 * (currentBoard.number_empty_squares() + 1)
+                    }
 
         # Terminal case:
         if not currentBoard.available_moves():
@@ -135,9 +168,10 @@ class UnbeatableComputerPlayer(Player):
 
         grid = currentBoard.grid
         for possibleMoveX, possibleMoveY in currentBoard.available_moves():
+            # Play the possible move
             grid[possibleMoveX][possibleMoveY] = currentPlayer
-
             virtualScore = self.minimax(currentBoard, minPlayer)
+
             # Undoing the move:
             grid[possibleMoveX][possibleMoveY] = ' '
             currentBoard.playerWinner = None
@@ -145,9 +179,8 @@ class UnbeatableComputerPlayer(Player):
 
             if currentPlayer == maxPlayer and virtualScore['score'] > bestMove['score']:
                 bestMove = virtualScore
-            else:
-                if virtualScore['score'] < bestMove['score']:
-                    bestMove = virtualScore
+            if virtualScore['score'] < bestMove['score']:
+                bestMove = virtualScore
 
         return bestMove
 

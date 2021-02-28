@@ -13,6 +13,8 @@ class GameBoard:
     :method: __init__(self)
     :method: grid(self)
     :method: playerWinner(self)
+    :method: playerWinner(self, winner)
+    :method: number_empty_squares(self)
     :method: available_moves(self)
     :method: display_board(self)
     :method: verify_winning_conditions(self, player)
@@ -36,6 +38,7 @@ class GameBoard:
 
         :returns list: The grid of the game board.
         """
+
         return self._grid
 
     @property
@@ -45,10 +48,17 @@ class GameBoard:
 
         :returns Player: The winner of the game.
         """
+
         return self._playerWinner
 
     @playerWinner.setter
     def playerWinner(self, winner):
+        """
+        This function is the setter of the winning player.
+
+        :returns: None.
+        """
+
         self._playerWinner = winner
 
     def available_moves(self):
@@ -102,13 +112,13 @@ class GameBoard:
         # Line conditions
         for line in self._grid:
             if all([symbol == square for square in line]):
-                self._playerWinner = player
+                self._playerWinner = player.symbolPlayer
         # Row conditions
         if all([self._grid[i][0] == symbol for i in range(3)]) or all([self._grid[i][1] == symbol for i in range(3)]) or all([self._grid[i][2] == symbol for i in range(3)]):
-            self._playerWinner = player
+            self._playerWinner = player.symbolPlayer
         # Diagonal conditions
         if all([self._grid[i][i] == symbol for i in range(3)]) or all(self._grid[i][2 - i] == symbol for i in range(3)):
-            self._playerWinner = player
+            self._playerWinner = player.symbolPlayer
 
     def play_on_board(self, listPlayers):
         """
@@ -122,7 +132,10 @@ class GameBoard:
             if self._playerWinner != None:
                 break
             player = next(iterPlayer)
-        print('The player: ' + str(player.symbolPlayer) + ' wins!')
+        if self._playerWinner == 'Tie':
+            print('It\'s a tie!')
+        else:
+            print('The player: ' + str(self._playerWinner) + ' wins!')
 
     def move_verify_display(self, absX, ordY, player):
         """
@@ -130,4 +143,9 @@ class GameBoard:
 
         self._grid[absX][ordY] = player.symbolPlayer
         self.verify_winning_conditions(player)
+        self.verify_tie_conditions()
         self.display_board()
+
+    def verify_tie_conditions(self):
+        if len(self.available_moves()) == 0 and self._playerWinner == None:
+            self._playerWinner = 'Tie'

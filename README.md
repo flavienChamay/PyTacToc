@@ -33,9 +33,12 @@ No tests have been launched on Windows for the moment.
 ## Features
 * All basic mechanics of a Tic-Tac-Toe game
 * CLI for user interaction
+* Dumb AI (plays random moves)
 
 To-do list:
 * GUI
+* Unbeatable AI
+* Save/Load a game mechanism
 
 ## Launch
 After all dependencies has been installed, launch the project with a terminal on the source folder and type:
