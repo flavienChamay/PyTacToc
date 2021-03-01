@@ -26,8 +26,9 @@ Coming soon...
 This project has been only tested on Linux Manjaro Nibia 20.2.1.
 
 ### On Linux:
-No specific dependencies are required for this project.
-## On Windows:
+No specific dependencies are required for this project, except having Python on your computer.
+
+### On Windows:
 No tests have been launched on Windows for the moment.
 
 ## Features
@@ -41,11 +42,11 @@ To-do list:
 * Save/Load a game mechanism
 
 ## Launch
-After all dependencies has been installed, launch the project with a terminal on the source folder and type:
+Launch a terminal window on the source folder and type:
 ```bash
 python guiCli.py
 ```
-After that, follow the indications on the terminal.
+After that, you can play the game!
 
 ## Code Example
 
