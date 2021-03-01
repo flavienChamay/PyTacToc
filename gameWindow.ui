@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,24 +11,27 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PyTacToe Game</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>20</y>
-      <width>451</width>
-      <height>331</height>
+      <x>90</x>
+      <y>30</y>
+      <width>481</width>
+      <height>341</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <property name="spacing">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0" columnminimumwidth="0,0,0">
+     <property name="bottomMargin">
       <number>0</number>
      </property>
-     <item row="1" column="2">
-      <widget class="QPushButton" name="pushButton_8">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="pushButton_5">
        <property name="minimumSize">
         <size>
          <width>90</width>
@@ -37,107 +40,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>35</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>90</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>35</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>90</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>35</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>90</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>35</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>90</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>35</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>90</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>35</pointsize>
+         <pointsize>30</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -157,7 +60,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>35</pointsize>
+         <pointsize>30</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -167,8 +70,8 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="pushButton_5">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="minimumSize">
         <size>
          <width>90</width>
@@ -177,7 +80,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>35</pointsize>
+         <pointsize>30</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -197,7 +100,107 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>35</pointsize>
+         <pointsize>30</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QPushButton" name="pushButton_6">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="pushButton_7">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QPushButton" name="pushButton_9">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>30</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -209,31 +212,37 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="pushButton_10">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>430</y>
+      <y>390</y>
       <width>161</width>
-      <height>34</height>
+      <height>64</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Go back to the menu</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>380</y>
-      <width>161</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>It is X's turn to play!</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>It is X's turn</string>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_10">
+       <property name="text">
+        <string>Go back to the menu</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -66,6 +66,31 @@ def player_vs_unbeatable_computer():
     game = GameBoard()
     game.play_on_board(playerList)
 
+    def load_game():
+        """
+
+        :notes: 
+        Structure of a backup file:
+        first line -> grid of the game, listed with X or O separated with empty spaces.
+        second line -> symbol of the player who must play.
+        third line -> type of game: (1) dumb computer vs player (2) unbeatable computer vs player (3) human player vs human player
+        """
+
+        with open("saveGameTTT.txt", 'r') as fileSaveGame:
+            listFile = fileSaveGame.readlines()
+            gridLoaded = listFile[0].split()
+            playerPlay = listFile[1]
+            typeOfPlay = listFile[2]
+
+            # Process of the grid:
+            gridToSave = GameBoard().grid
+            index = 0
+            for a, b, c in gridLoaded:
+                gridToSave[index] = [a, b, c]
+                index += 1
+
+            # Process of the type of the game and the turn of the player:
+
 
 def menu_manager():
     """
@@ -94,6 +119,7 @@ def menu_manager():
             player_vs_unbeatable_computer()
         elif user_choice == '4':
             # TODO: save/load a game mechanism
+            load_game()
             print('No implemented yet!')
         elif user_choice == '5':
             waiting_for_input = False
