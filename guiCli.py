@@ -23,7 +23,7 @@ def human_choose_symbol():
     return HumanPlayer(input('Your choice: '))
 
 
-def player_vs_player():
+def player_vs_player(gameBoard, playerList):
     """
     This function manages the game between two human players.
 
@@ -32,9 +32,8 @@ def player_vs_player():
     :returns: None.
     """
 
-    playerList = [human_choose_symbol(), human_choose_symbol()]
-    game = GameBoard()
-    game.play_on_board(playerList)
+    #playerList = [human_choose_symbol(), human_choose_symbol()]
+    gameBoard.play_on_board(playerList)
 
 
 def player_vs_dumb_computer():
@@ -83,13 +82,31 @@ def player_vs_unbeatable_computer():
             typeOfPlay = listFile[2]
 
             # Process of the grid:
-            gridToSave = GameBoard().grid
+            game = GameBoard()
+            gridToSave = game.grid
+            gridToSave = map(lambda a, b, c: list(a, b, c), gridLoaded)
             index = 0
             for a, b, c in gridLoaded:
-                gridToSave[index] = [a, b, c]
+                gridToSave[index] = ['' if a == 'E' else a,
+                                     '' if b == 'E' else b,
+                                     '' if c == 'E' else c]
                 index += 1
-
-            # Process of the type of the game and the turn of the player:
+            # Processing the turn of the appropriate player:
+            if playerPlay == 'X':
+                playerList = [HumanPlayer('X'), HumanPlayer('O')]
+            elif playerPlay == 'O':
+                playerList = [HumanPlayer('O'), HumanPlayer('X')]
+            else:
+                print('Error in the saved file, wrong type of player!')
+            # Processing the type of game:
+            if typeOfPlay == '1':
+                pass
+            elif typeOfPlay == '2':
+                pass
+            elif typeOfPlay == '3':
+                player_vs_player(game, playerList)
+            else:
+                print('Error in the saved file, wrong type of play!')
 
 
 def menu_manager():
