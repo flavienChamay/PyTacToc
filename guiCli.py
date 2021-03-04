@@ -9,6 +9,7 @@ This module implements the CLI of the Tic-Tac-Toe game.  It is also the main pro
 """
 from gameBoard import GameBoard
 from player import HumanPlayer, DumbComputerPlayer, UnbeatableComputerPlayer
+import json
 
 
 def human_choose_symbol():
@@ -65,48 +66,43 @@ def player_vs_unbeatable_computer():
     game = GameBoard()
     game.play_on_board(playerList)
 
-    def load_game():
-        """
 
-        :notes: 
-        Structure of a backup file:
-        first line -> grid of the game, listed with X or O separated with empty spaces.
-        second line -> symbol of the player who must play.
-        third line -> type of game: (1) dumb computer vs player (2) unbeatable computer vs player (3) human player vs human player
-        """
+def load_game():
+    """
 
-        with open("saveGameTTT.txt", 'r') as fileSaveGame:
+    :notes:
+    Structure of a backup file:
+    first line -> grid of the game, listed with X or O separated with empty spaces.
+    second line -> symbol of the player who must play.
+    third line -> type of game: (1) dumb computer vs player (2) unbeatable computer vs player (3) human player vs human player
+    """
+    try:
+        with open("saveGameTTT.txt") as fileSaveGame:
             listFile = fileSaveGame.readlines()
-            gridLoaded = listFile[0].split()
-            playerPlay = listFile[1]
-            typeOfPlay = listFile[2]
+            gridLoaded = json.loads(listFile[0])
+            playerPlay = listFile[1].strip()
+            typeOfPlay = listFile[2].strip()
 
-            # Process of the grid:
+        # Processing the turn of the appropriate player:
+        if playerPlay == 'X':
+            playerList = [HumanPlayer('X'), HumanPlayer('O')]
+        elif playerPlay == 'O':
+            playerList = [HumanPlayer('O'), HumanPlayer('X')]
+        else:
+            raise IOError('Error in the saved file, wrong type of player!')
+        # Processing the type of game:
+        if typeOfPlay == '1':
+            pass
+        elif typeOfPlay == '2':
+            pass
+        elif typeOfPlay == '3':
             game = GameBoard()
-            gridToSave = game.grid
-            gridToSave = map(lambda a, b, c: list(a, b, c), gridLoaded)
-            index = 0
-            for a, b, c in gridLoaded:
-                gridToSave[index] = ['' if a == 'E' else a,
-                                     '' if b == 'E' else b,
-                                     '' if c == 'E' else c]
-                index += 1
-            # Processing the turn of the appropriate player:
-            if playerPlay == 'X':
-                playerList = [HumanPlayer('X'), HumanPlayer('O')]
-            elif playerPlay == 'O':
-                playerList = [HumanPlayer('O'), HumanPlayer('X')]
-            else:
-                print('Error in the saved file, wrong type of player!')
-            # Processing the type of game:
-            if typeOfPlay == '1':
-                pass
-            elif typeOfPlay == '2':
-                pass
-            elif typeOfPlay == '3':
-                player_vs_player(game, playerList)
-            else:
-                print('Error in the saved file, wrong type of play!')
+            game.grid = gridLoaded
+            player_vs_player(game, playerList)
+        else:
+            raise IOError('Error in the saved file, wrong type of play!')
+    except IOError as io:
+        print(io)
 
 
 def menu_manager():

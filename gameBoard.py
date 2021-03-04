@@ -41,6 +41,17 @@ class GameBoard:
 
         return self._grid
 
+    @grid.setter
+    def grid(self, grid):
+        """
+        This function is the setter of the grid variable.
+
+        :param grid: The new grid of the game.
+        :returns: None.
+        """
+
+        self._grid = grid
+
     @property
     def playerWinner(self):
         """
@@ -56,6 +67,7 @@ class GameBoard:
         """
         This function is the setter of the winning player.
 
+        :param winner: The new winner of the game.
         :returns: None.
         """
 
