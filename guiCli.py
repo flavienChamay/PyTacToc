@@ -118,6 +118,30 @@ def load_game():
         print(io)
 
 
+def save_game(game, playerTurn, typeOfPlay):
+    """
+    This function manages the save mechanism of the game.
+
+    :param game GameBoard: The game to be saved.
+    :param playerTurn char: The player turn to be saved.
+    :param typeOfPlay int: The type of play of the game to be saved.
+    :returns: None.
+    :notes:
+    Structure of a backup file:
+    first line -> grid of the game, listed with X or O separated with empty spaces.
+    second line -> symbol of the player who must play.
+    third line -> type of game: (1) dumb computer vs player (2) unbeatable computer vs player (3) human player vs human player
+    """
+
+    try:
+        with open("sameGameTTT.txt", "w") as fileSaveGame:
+            json.dump(game.grid, fileSaveGame)
+            json.dump(playerTurn, fileSaveGame)
+            json.dump(typeOfPlay, fileSaveGame)
+    except IOError as io:
+        print(io)
+
+
 def menu_manager():
     """
     This functions manages the menu in the CLI.
@@ -135,16 +159,16 @@ def menu_manager():
               '2: starting a new game player VS dumb computer (random moves);',
               '3: starting a new game player VS unbeatable computer;',
               '4: load a game;',
-              '5: quit the game;', sep='\n')
+              '5: quit the game;',
+              'In a game, you can save at anytime, except at the end of a game, by pressing s', sep='\n')
         user_choice = input('Your choice: ')
         if user_choice == '1':
-            player_vs_player()
+            player_vs_player(GameBoard(), 'X')
         elif user_choice == '2':
-            player_vs_dumb_computer()
+            player_vs_dumb_computer(GameBoard(), 'X')
         elif user_choice == '3':
-            player_vs_unbeatable_computer()
+            player_vs_unbeatable_computer(GameBoard(), 'X')
         elif user_choice == '4':
-            # TODO: save/load a game mechanism
             load_game()
             print('No implemented yet!')
         elif user_choice == '5':
