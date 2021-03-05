@@ -1,5 +1,5 @@
 """
-This module implements the CLI of the Tic-Tac-Toe game.  It is also the main program of the game.
+This module implements the CLI of the Tic-Tac-Toe game.
 
 :method: human_choose_symbol()
 :method: player_vs_player()
@@ -9,7 +9,6 @@ This module implements the CLI of the Tic-Tac-Toe game.  It is also the main pro
 :notes: A computer is always X. First human player is always X, second human player is always O.
 """
 
-from gameBoard import GameBoard
 from player import HumanPlayer, DumbComputerPlayer, UnbeatableComputerPlayer
 import json
 
@@ -30,7 +29,7 @@ def player_vs_player(gameBoard, playerPlay):
             playerList = [HumanPlayer('O'), HumanPlayer('X')]
         else:
             raise IOError('Error in the saved file, wrong type of player!')
-        gameBoard.play_on_board(playerList)
+        gameBoard.play_on_board(playerList, 3)
     except IOError as io:
         print(io)
 
@@ -52,7 +51,7 @@ def player_vs_dumb_computer(gameBoard, playerPlay):
             playerList = [HumanPlayer('O'), DumbComputerPlayer('X')]
         else:
             raise IOError('Error in the saved file, wrong type of player!')
-        gameBoard.play_on_board(playerList)
+        gameBoard.play_on_board(playerList, 1)
     except IOError as io:
         print(io)
 
@@ -74,7 +73,7 @@ def player_vs_unbeatable_computer(gameBoard, playerPlay):
             playerList = [HumanPlayer('O'), UnbeatableComputerPlayer('X')]
         else:
             raise IOError('Error in the saved file, wrong type of player!')
-        gameBoard.play_on_board(playerList)
+        gameBoard.play_on_board(playerList, 2)
     except IOError as io:
         print(io)
 
@@ -134,15 +133,15 @@ def save_game(game, playerTurn, typeOfPlay):
     """
 
     try:
-        with open("sameGameTTT.txt", "w") as fileSaveGame:
+        with open("saveGameTTT.txt", "w") as fileSaveGame:
             json.dump(game.grid, fileSaveGame)
-            json.dump(playerTurn, fileSaveGame)
-            json.dump(typeOfPlay, fileSaveGame)
+            json.dump(playerTurn, fileSaveGame, indent=0)
+            json.dump(typeOfPlay, fileSaveGame, indent=0)
     except IOError as io:
         print(io)
 
 
-def menu_manager():
+def menu_manager(gameBoard):
     """
     This functions manages the menu in the CLI.
 
@@ -163,11 +162,11 @@ def menu_manager():
               'In a game, you can save at anytime, except at the end of a game, by pressing s', sep='\n')
         user_choice = input('Your choice: ')
         if user_choice == '1':
-            player_vs_player(GameBoard(), 'X')
+            player_vs_player(gameBoard, 'X')
         elif user_choice == '2':
-            player_vs_dumb_computer(GameBoard(), 'X')
+            player_vs_dumb_computer(gameBoard, 'X')
         elif user_choice == '3':
-            player_vs_unbeatable_computer(GameBoard(), 'X')
+            player_vs_unbeatable_computer(gameBoard, 'X')
         elif user_choice == '4':
             load_game()
             print('No implemented yet!')
@@ -176,11 +175,3 @@ def menu_manager():
         else:
             print('Input was invalid, please pick a value from the list!')
     print('You have left the game, see you next time!')
-
-
-if __name__ == '__main__':
-    """
-    Main program of the project. Calls the menu manager.
-    """
-
-    menu_manager()

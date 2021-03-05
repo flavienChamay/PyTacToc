@@ -9,6 +9,7 @@ This module manages the players of the Tic-Tac-Toe game. The player can be a hum
 
 import random
 from math import inf
+from gui import guicli
 
 
 class Player:
@@ -126,6 +127,7 @@ class UnbeatableComputerPlayer(Player):
         :notes: If all squares on the board are available (meaning that it plays first), then it chooses a random square. If not, it uses the minimax algorithm to play.
         """
 
+        print('Computer plays...')
         grid = board.grid
         moves = board.available_moves()
         if len(moves) == 9:
@@ -240,7 +242,8 @@ class HumanPlayer(Player):
 
         print('Always choose a tuple of coordinates between 0 and 2 like this : "x y"')
         print('Player ' + str(self._symbolPlayer) + ' to play: ')
-        while True:  # As long as the player keeps doing mistakes, he has to replay.
+        # As long as the player keeps doing mistakes, he has to replay.
+        while True:
             x, y = map(int, input('Your coordinates: ').split())
             resultPlay = self.player_plays(board, x, y)
             if resultPlay:

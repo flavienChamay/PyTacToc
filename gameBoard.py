@@ -4,6 +4,7 @@ This module manages the board of the game. It allows the players and the compute
 :class GameBoard: The class of the board of the game.
 """
 from itertools import cycle
+from gui.guicli import save_game
 
 
 class GameBoard:
@@ -133,9 +134,9 @@ class GameBoard:
         if all([self._grid[i][i] == symbol for i in range(3)]) or all(self._grid[i][2 - i] == symbol for i in range(3)):
             self._playerWinner = player.symbolPlayer
 
-    def play_on_board(self, listPlayers):
+    def play_on_board(self, listPlayers, typeOfPlay):
         """
-        This function takes the players in turn. It prints if the game is a tie or the winner of the game.
+        This function takes the players in turn and saves the game after each turn. It prints if the game is a tie or the winner of the game.
 
         :param listPlayers list: The list of the players of the game.
         :var iterPlayer Player: The iterator of the listPlayers var.
@@ -150,6 +151,7 @@ class GameBoard:
             player.to_play(self)
             if self._playerWinner != None:
                 break
+            save_game(self, player.symbolPlayer, typeOfPlay)
             player = next(iterPlayer)
         if self._playerWinner == 'Tie':
             print('It\'s a tie!')
